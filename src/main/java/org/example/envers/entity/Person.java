@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,11 +27,11 @@ import java.util.UUID;
 
 @Entity
 @Table(schema = "test")
-@Audited
+@Audited(withModifiedFlag = true)
 @Getter
 @Setter
 @EntityListeners(AuditingEntityListener.class)
-public class Person {
+public class Person implements Serializable {
 
  @Id
  @GeneratedValue
@@ -40,7 +41,7 @@ public class Person {
  private String lastname;
  private LocalDate birthdate;
  @NotAudited
- @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, targetEntity = Address.class, cascade = CascadeType.ALL)
+ @OneToMany
  @JoinColumn(name = "person_id")
  private List<Address> addresses;
 
